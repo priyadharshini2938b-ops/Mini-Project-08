@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Diary</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Authentication Section -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <i class="fas fa-book"></i>
+                <h1>My Personal Diary</h1>
+                <p class="auth-subtitle">Your Secret Space</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="loginTab">Login</button>
+                <button class="tab-btn" id="registerTab">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="loginPassword" 
+                        placeholder="Enter your diary password" 
+                        required
+                    >
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Enter Diary
+                </button>
+                <p class="auth-message" id="loginMessage"></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="registerPassword">
+                        <i class="fas fa-lock"></i> Create Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="registerPassword" 
+                        placeholder="Create a strong password" 
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        placeholder="Confirm your password" 
+                        required
+                    >
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <p class="auth-message" id="registerMessage"></p>
+            </form>
+
+            <div class="quote-container auth-quote">
+                <p id="authQuote" class="quote-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Diary Section -->
+    <div id="diaryContainer" class="diary-container" style="display: none;">
+        <!-- Header with User Controls -->
+        <header class="diary-header">
+            <div class="header-left">
+                <h1><i class="fas fa-book-open"></i> My Diary</h1>
+                <p id="headerDate" class="header-date"></p>
+            </div>
+            <div class="header-right">
+                <button id="toggleTheme" class="header-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="logoutBtn" class="header-btn logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Motivational Quote Section -->
+        <div class="quote-container main-quote">
+            <p id="mainQuote" class="quote-text"></p>
+            <i class="fas fa-lightbulb quote-icon"></i>
+        </div>
+
+        <div class="diary-content">
+            <!-- Sidebar: Calendar and Navigation -->
+            <aside class="diary-sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-calendar-alt"></i> Calendar</h3>
+                    <input 
+                        type="date" 
+                        id="dateSelector" 
+                        class="date-selector"
+                    >
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-bookmark"></i> Bookmarks</h3>
+                    <div id="bookmarksList" class="bookmarks-list">
+                        <p class="empty-message">No bookmarks yet</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-bell"></i> Reminders</h3>
+                    <div id="remindersList" class="reminders-list">
+                        <p class="empty-message">No reminders set</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-search"></i> Search</h3>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search entries..."
+                    >
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="diary-main">
+                <!-- Entry Form -->
+                <div class="entry-form-container">
+                    <h2><i class="fas fa-pen-fancy"></i> Write Today's Entry</h2>
+                    
+                    <form id="entryForm" class="entry-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="entryDate">
+                                    <i class="fas fa-calendar-day"></i> Date
+                                </label>
+                                <input 
+                                    type="date" 
+                                    id="entryDate" 
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="bookmark-toggle">
+                                    <input 
+                                        type="checkbox" 
+                                        id="bookmark-toggle" 
+                                        class="bookmark-checkbox"
+                                    >
+                                    <i class="fas fa-star"></i> Mark as Important
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entrySummary">
+                                <i class="fas fa-heading"></i> One-Line Summary
+                            </label>
+                            <input 
+                                type="text" 
+                                id="entrySummary" 
+                                placeholder="Brief summary of your day..." 
+                                maxlength="100"
+                                required
+                            >
+                            <span id="charCount" class="char-count">0/100</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entryContent">
+                                <i class="fas fa-feather-alt"></i> Your Story
+                            </label>
+                            <textarea 
+                                id="entryContent" 
+                                placeholder="Write your thoughts, feelings, and experiences here..."
+                                rows="10"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entryReminder">
+                                <i class="fas fa-clock"></i> Add Reminder (Optional)
+                            </label>
+                            <input 
+                                type="text" 
+                                id="entryReminder" 
+                                placeholder="e.g., 'Call Mom', 'Doctor Appointment'..."
+                                maxlength="50"
+                            >
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Entry
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Entries Display -->
+                <div class="entries-container">
+                    <h2><i class="fas fa-list"></i> Your Entries</h2>
+                    <div id="entriesList" class="entries-list">
+                        <p class="empty-message">No entries yet. Start writing your first entry!</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Entry Modal for Viewing/Editing -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-entry-info">
+                    <span id="modalDate" class="modal-info-item">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span id="modalBookmark" class="modal-info-item">
+                        <i class="fas fa-star"></i>
+                    </span>
+                </div>
+                <p id="modalSummary" class="modal-summary"></p>
+                <p id="modalContent" class="modal-content-text"></p>
+                <p id="modalReminder" class="modal-reminder"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="editEntryBtn" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button id="deleteEntryBtn" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <button id="closeModalBtn" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content edit-modal-content">
+            <div class="modal-header">
+                <h2>Edit Entry</h2>
+                <button class="modal-close" id="closeEditModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" class="entry-form">
+                    <div class="form-group">
+                        <label for="editDate">Date</label>
+                        <input type="date" id="editDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="editBookmark" class="bookmark-checkbox">
+                            <i class="fas fa-star"></i> Mark as Important
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSummary">Summary</label>
+                        <input 
+                            type="text" 
+                            id="editSummary" 
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="editContent">Content</label>
+                        <textarea 
+                            id="editContent" 
+                            rows="8"
+                            required
+                        ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editReminder">Reminder</label>
+                        <input 
+                            type="text" 
+                            id="editReminder" 
+                            maxlength="50"
+                        >
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" id="cancelEditBtn" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
